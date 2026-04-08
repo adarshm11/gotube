@@ -1,0 +1,4 @@
+config.yml
+.env
+.DS_Store
+/videos

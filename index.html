@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidVendor</title>
+</head>
+<body>
+    <h1>VidVendor</h1>
+    
+    <video id="videoPlayer" width="800" height="450" controls autoplay>
+        Your browser does not support the video tag.
+    </video>
+    
+    <br><br>
+    
+    <div>
+        <button onclick="skipVideo()">Skip Video</button>
+        <button onclick="stopStream()">Stop Stream</button>
+    </div>
+    
+    <br>
+    
+    <div>
+        <input type="text" id="urlInput" placeholder="Enter video URL" size="60">
+        <button onclick="addToQueue()">Add to Queue</button>
+    </div>
+    
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+        
+        // Load initial video when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(loadNextVideo, 100);
+        });
+        
+        function loadNextVideo() {
+            console.log('Loading next video...');
+            // Add timestamp to prevent caching
+            videoPlayer.src = 'http://localhost:8080/next?t=' + Date.now();
+            videoPlayer.load();
+            videoPlayer.play().catch(err => console.error('Play error:', err));
+        }
+        
+        async function skipVideo() {
+            try {
+                const response = await fetch('http://localhost:8080/next', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    loadNextVideo();
+                } else {
+                    alert('Failed to skip video');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error skipping video');
+            }
+        }
+        
+        async function stopStream() {
+            try {
+                const response = await fetch('http://localhost:8080/stop', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    videoPlayer.pause();
+                    videoPlayer.src = '';
+                    alert('Stream stopped');
+                } else {
+                    alert('Failed to stop stream');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error stopping stream');
+            }
+        }
+        
+        async function addToQueue() {
+            const url = document.getElementById('urlInput').value;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:8080/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                if (response.ok) {
+                    document.getElementById('urlInput').value = '';
+                    alert('Video added to queue');
+                } else {
+                    alert('Failed to add video to queue');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error adding video to queue');
+            }
+        }
+        
+        // Auto-play next video when current one ends
+        videoPlayer.addEventListener('ended', function() {
+            console.log('Video ended, loading next...');
+            loadNextVideo();
+        });
+    </script>
+</body>
+</html>
