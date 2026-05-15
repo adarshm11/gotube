@@ -9,9 +9,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"VidVendor/config"
-	"VidVendor/handlers"
-	"VidVendor/services"
+	"github.com/adarshm11/gotube/config"
+	"github.com/adarshm11/gotube/handlers"
+	"github.com/adarshm11/gotube/services"
 )
 
 func corsMiddleware(next http.Handler) http.Handler {

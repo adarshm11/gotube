@@ -1,4 +1,4 @@
-module VidVendor
+module github.com/adarshm11/gotube
 
 go 1.24.3
 

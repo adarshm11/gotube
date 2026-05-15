@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"VidVendor/config"
-	"VidVendor/services"
+	"github.com/adarshm11/gotube/config"
+	"github.com/adarshm11/gotube/services"
 )
 
 func UploadVideoHandler(w http.ResponseWriter, r *http.Request) {

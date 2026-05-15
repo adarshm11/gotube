@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"VidVendor/config"
+	"github.com/adarshm11/gotube/config"
 )
 
 // Adds a new URL to the URLQueue to be downloaded

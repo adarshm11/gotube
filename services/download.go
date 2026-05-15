@@ -7,8 +7,8 @@ import (
 
 	"github.com/kkdai/youtube/v2"
 
-	"VidVendor/config"
-	"VidVendor/utils"
+	"github.com/adarshm11/gotube/config"
+	"github.com/adarshm11/gotube/utils"
 )
 
 var client = youtube.Client{}

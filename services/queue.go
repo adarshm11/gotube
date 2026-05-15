@@ -1,7 +1,7 @@
 package services
 
 import (
-	"VidVendor/config"
+	"github.com/adarshm11/gotube/config"
 )
 
 var (
